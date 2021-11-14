@@ -10,7 +10,7 @@ class WeatherForecast:
 
     def __init__(self, api_key):
         self.api_key = api_key
-        self.cache_path = join(dirname(abspath(__file__)),'cache.txt')
+        self.cache_path = join(dirname(abspath(__file__)), 'cache.txt')
         # zaladowanie cache'a
         if exists(self.cache_path):
             with open(self.cache_path, 'r') as file:
@@ -48,5 +48,18 @@ class WeatherForecast:
             file.write(json.dumps(self.cache))
         return new_value
 
+    def items(self):
+        for date, value in self.cache.items():
+            yield (date, value)
+
+    def __iter__(self):
+        for date in self.cache.keys():
+            yield date
+
 wf = WeatherForecast(api_key=sys.argv[1])
 print(wf[sys.argv[2]])
+
+# print(list(wf.items()))
+
+# for date in wf:
+#     print(date)
